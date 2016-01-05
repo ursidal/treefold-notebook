@@ -5,3 +5,13 @@ body{
  color:#ff0000;
  size:14px;
 }
+
+h2{
+  margin-left: 20px;
+}
+
+#main{
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
