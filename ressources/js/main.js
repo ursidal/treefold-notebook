@@ -1,3 +1,6 @@
+//markdown compiler to pimp out (href->v-link)
+var marked = require('marked');
+
 //My Model: Data example
 
 var data = {
