@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="resources/css/styles.css">
 
   <script src="resources/js/lib/marked.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+  <script src="resources/js/lib/vue.js"></script>
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -23,7 +23,7 @@
     <div id='elt'>
       {{txt}} <br />
       {{{ marked(txt) }}}
-      <div v-html="txt | marked"></div>
+      <span v-html="txt | markdown"></span>
     </div>
   </div>
   <script src="resources/js/main.js"></script>
