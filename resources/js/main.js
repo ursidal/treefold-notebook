@@ -1,10 +1,47 @@
 //markdown compiler to pimp out (href->v-link)
 //var marked = require('marked');
 
+var renderer = new marked.Renderer();
+
+renderer.heading = function (text, level) {
+  var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+  return '<h' + level + '><a name="' +
+                escapedText +
+                 '" class="anchor" href="#' +
+                 escapedText +
+                 '"><span class="header-link"></span></a>' +
+                  text + '</h' + level + '>';
+},
+  
+renderer.link = function ( lien, titre, texte ) {
+  var title = "";
+  console.log(titre);
+  if (titre != null){title = " title="+titre;}
+  return '<a href="' + lien +'"' + title +">"+texte+"</a>";
+
+}
+
+marked.setOptions({
+  renderer: renderer,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
+
+
+Vue.filter('markdown', function(text){
+  marked(text);
+})
+
 //My Model: Data example
 
 var poeme = {
-  txt: "La terre est [bleue] [comme une orange]",
+  txt: "La terre est [bleue](www.duckduckgo.com) [comme une orange](comme_une_orange)",
   //links: {
     // bleue: {
     //   txt: "couleur primaire"
@@ -19,11 +56,10 @@ var poeme = {
 // which links the View and the Model
 var notebook = new Vue({
   el: '#elt',
-  data: {
-    txt: "La *terre* est [bleue] [comme une orange]"
-  },
+  data:poeme,
   methods: {
     marked: marked
   }
 })
+
 console.log(notebook.marked(poeme.txt))
