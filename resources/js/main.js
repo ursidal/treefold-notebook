@@ -39,6 +39,14 @@ function updateList(){
 }
 
 
+function addDoc(){
+  var doc = {
+    _id: (new Date()).toJSON(),
+    text: ""
+  };
+  return doc;
+}
+
 //Should we delete it ?
 var renderer = new marked.Renderer();
 
