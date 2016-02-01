@@ -1,38 +1,42 @@
 //markdown compiler to pimp out (href->v-link)
 //var marked = require('marked');
 
-<<<<<<< HEAD
 var configdb = new PouchDB('treefold-config');
+var db, remotedb;
 
 function initDb(){}
   configdb.get('config').catch(function (err) {
-  if (err.status === 404) { // not found!
-    return {
-      _id: 'config',
-      namedb: 'treefold-notebook',
-      urldb: ''
-    };
-  } else { // hm, some other error
-    throw err;
-  }
-}).then(function (configDoc) {
-  var db = new PouchDB(namedb);
-  if(urldb!=''){
-    var remotedb = new Pouchdb(urldb+"/"+namedb);
-    db.sync(remoteDb, {live: true});
-  }
-  else {
-    var remotedb = false;
-  }
-  db.changes({
-    since: 'now',
-    live: true
-  }).on('change', updateList);
-}).catch(function (err) {
-  console.log("Voici l'erreur lors de l'initialisation: "+err);
-});
+    if (err.status === 404) { // not found!
+      return {
+        _id: 'config',
+        namedb: 'treefold-notebook',
+        urldb: '',
+        newconfig: true
+      };
+    } else { // hm, some other error
+      throw err;
+    }
+  }).then(function (configDoc) {
+    db = new PouchDB(configDoc.namedb);
+    if(configDoc.urldb!=''){
+      remotedb = new Pouchdb(configDoc.urldb+"/"+configDoc.namedb);
+      db.sync(remoteDb, {live: true});
+    }
+    else {
+      remotedb = false;
+    }
+    db.changes({
+      since: 'now',
+      live: true
+    }).on('change', updateList);
+    }).catch(function (err) {
+    console.log("Voici l'erreur lors de l'initialisation: "+err);
+  });
+}
 
-
+function updateList(){
+  //met à jour les documents
+}
 
 
 //Should we delete it ?
@@ -77,8 +81,11 @@ Vue.filter('markdown', function(text){
 
 
 
-var poeme = {
-  txt: "La terre est [bleue](www.duckduckgo.com) [comme une orange](comme_une_orange)",
+var model = {
+  listDocs: [],
+  config: newConfig(),
+  activeDoc: null
+  //txt: "La terre est [bleue](www.duckduckgo.com) [comme une orange](comme_une_orange)",
   //links: {
     // bleue: {
     //   txt: "couleur primaire"
@@ -93,7 +100,7 @@ var poeme = {
 // which links the View and the Model
 var notebook = new Vue({
   el: '#elt',
-  data:poeme,
+  data:model,
   methods: {
     marked: marked
   }
