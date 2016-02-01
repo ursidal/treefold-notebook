@@ -1,10 +1,10 @@
 //markdown compiler to pimp out (href->v-link)
 //var marked = require('marked');
 
-var configdb = new PouchDB('treefold-config');
+//var configdb = new PouchDB('treefold-config');
 var db, remotedb;
 
-function initDb(){}
+function initDb(){
   configdb.get('config').catch(function (err) {
     if (err.status === 404) { // not found!
       return {
@@ -38,52 +38,59 @@ function updateList(){
   //met à jour les documents
 }
 
+function newConfig(){
+  return 0;
+}
 
-function addDoc(){
+function newDoc(){
   var doc = {
     _id: (new Date()).toJSON(),
-    text: ""
+    title: "Sans titre",
+    text: "",
+    rev: ""
   };
   return doc;
 }
 
+
+
 //Should we delete it ?
-var renderer = new marked.Renderer();
-
-renderer.heading = function (text, level) {
-  var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
-
-  return '<h' + level + '><a name="' +
-                escapedText +
-                 '" class="anchor" href="#' +
-                 escapedText +
-                 '"><span class="header-link"></span></a>' +
-                  text + '</h' + level + '>';
-},
-
-renderer.link = function ( lien, titre, texte ) {
-  var title = "";
-  console.log(titre);
-  if (titre != null){title = " title="+titre;}
-  return '<a href="' + lien +'"' + title +">"+texte+"</a>";
-
-}
-
-marked.setOptions({
-  renderer: renderer,
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false
-});
-
-
-Vue.filter('markdown', function(text){
-  marked(text);
-})
+// var renderer = new marked.Renderer();
+//
+// renderer.heading = function (text, level) {
+//   var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+//
+//   return '<h' + level + '><a name="' +
+//                 escapedText +
+//                  '" class="anchor" href="#' +
+//                  escapedText +
+//                  '"><span class="header-link"></span></a>' +
+//                   text + '</h' + level + '>';
+// },
+//
+// renderer.link = function ( lien, titre, texte ) {
+//   var title = "";
+//   console.log(titre);
+//   if (titre != null){title = " title="+titre;}
+//   return '<a href="' + lien +'"' + title +">"+texte+"</a>";
+//
+// }
+//
+// marked.setOptions({
+//   renderer: renderer,
+//   gfm: true,
+//   tables: true,
+//   breaks: false,
+//   pedantic: false,
+//   sanitize: true,
+//   smartLists: true,
+//   smartypants: false
+// });
+//
+//
+// Vue.filter('markdown', function(text){
+//   marked(text);
+// })
 
 //My Model: Data example
 
@@ -108,10 +115,17 @@ var model = {
 // which links the View and the Model
 var notebook = new Vue({
   el: '#elt',
-  data:model,
+  data: model,
   methods: {
-    marked: marked
+    //marked: marked,
+    addDoc: function(){
+      console.log("addDoc cliqué");
+      var newdoc = newDoc();
+      this.listDocs.push(newdoc);
+      this.activeDoc = 0;
+    },
+    activate: function(i){
+      this.activeDoc = i;
+    }
   }
 })
-
-console.log(notebook.marked(poeme.txt))

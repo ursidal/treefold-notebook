@@ -23,9 +23,17 @@
   <div id="main">
     <h2>Mon Carnet Nonlinéaire</h2>
     <div id='elt'>
-      {{txt}} <br />
-      {{{ marked(txt) }}}
-      <span v-html="txt | markdown"></span>
+      <div v-on:click="addDoc">
+        + Ajouter une note
+      </div>
+      <div v-if="activeDoc">
+        <h3> <input type="text" v-model="listDocs[activeDoc].title" placeholder="Titre"></h3>
+        <br>
+        <input type="text" v-model="listDocs[activeDoc].text" placeholder="Le texte">
+      </div>
+      <ul>
+        <li v-for="(index,doc) in listDocs|orderBy '_id' -1" v-on:click="activate(index)">{{doc.title}} ({{doc._id}}) </li>
+      </ul>
     </div>
   </div>
   <script src="resources/js/main.js"></script>
