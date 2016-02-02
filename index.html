@@ -29,7 +29,7 @@
       <div v-if="activeDoc">
         <h3> <input type="text" v-model="listDocs[activeDoc].title" placeholder="Titre"></h3>
         <br>
-        <input type="text" v-model="listDocs[activeDoc].text" placeholder="Le texte">
+        <textarea type="text" v-model="listDocs[activeDoc].text" placeholder="Le texte" debounce="500" cols="80" rows="20"></textarea>
       </div>
       <ul>
         <li v-for="(index,doc) in listDocs|orderBy '_id' -1" v-on:click="activate(index)">{{doc.title}} ({{doc._id}}) </li>
