@@ -45,6 +45,7 @@ function newConfig(){
 function newDoc(){
   var doc = {
     _id: (new Date()).toJSON(),
+    modified: _id,
     title: "Sans titre",
     text: "",
     rev: ""
