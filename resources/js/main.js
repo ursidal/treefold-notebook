@@ -122,10 +122,20 @@ var notebook = new Vue({
       console.log("addDoc cliqué");
       var newdoc = newDoc();
       this.listDocs.push(newdoc);
-      this.activeDoc = 0;
+      this.activeDoc = newdoc._id;
     },
     activate: function(i){
       this.activeDoc = i;
+    },
+    dateModif: function(doc){
+      doc.modified = (new Date()).toJSON();
+    },
+    findDocById: function(id){
+      var i = 0;
+      while(this.listDocs[i]!=id){
+        i=i+1;
+      }
+      return this.listDocs[i];
     }
   }
 })
