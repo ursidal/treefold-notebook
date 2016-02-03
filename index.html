@@ -32,7 +32,7 @@
         <textarea type="text" v-model="listDocs[activeDoc].text" placeholder="Le texte" debounce="500" cols="80" rows="20"></textarea>
       </div>
       <ul>
-        <li v-for="(index,doc) in listDocs|orderBy '_id' -1" v-on:click="activate(index)">{{doc.title}} ({{doc._id}}) </li>
+        <li v-for="doc in listDocs|orderBy 'modified' -1" v-on:click="activate(doc._id)"><b>{{doc.title}}</b> ({{doc._id}}) </li>
       </ul>
     </div>
   </div>
