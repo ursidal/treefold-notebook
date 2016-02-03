@@ -134,7 +134,8 @@ var notebook = new Vue({
     },
     findDocById: function(id){
       var i = 0;
-      while(this.listDocs[i]!=id){
+      var n = this.listDocs[i].length;
+      while(this.listDocs[i]._id!=id && i<n){
         i=i+1;
       }
       return this.listDocs[i];
