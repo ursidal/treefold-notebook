@@ -56,11 +56,12 @@ function newDoc(){
 
 function findDocById(listDocs,id){
       var i = 0;
-      var n = listDocs[i].length;
-      while(listDocs[i]._id!=id && i<n){
+      var n = listDocs.length;
+      while(listDocs[i]._id != id && i<n){
         i=i+1;
       }
-      return listDocs[i];
+      console.log("findDocById: "+i)
+      return i;
     }
 
 //Should we delete it ?
@@ -131,16 +132,23 @@ var notebook = new Vue({
       console.log("addDoc cliqué");
       var newdoc = newDoc();
       this.listDocs.push(newdoc);
-      this.activeDoc = newdoc;
+      this.activeDoc = this.listDocs.length-1;
+      console.log(this.activeDoc);
     },
     activate: function(id){
+      console.log("apparemment a cliqué sur "+id)
       this.activeDoc = findDocById(this.listDocs,id);
     },
     dateModif: function(doc){
       doc.modified = (new Date()).toJSON();
     },
     findDocById: function(id){
-      return findDocById(this.listDocs,id);
+      var i = findDocById(this.listDocs,id);
+      return i;
+    },
+    dateShow: function(date){
+      var date = new Date(date);
+      return date.getDate()+"/"+date.getMonth();
     }
   }
 })

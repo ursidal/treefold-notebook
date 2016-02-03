@@ -12,7 +12,7 @@
 
   <script src="resources/js/lib/marked.min.js"></script>
   <script src="resources/js/lib/pouchdb-5.2.0.min.js"></script>
-<!--  <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>-->
+  <!--  <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>-->
   <script src="resources/js/lib/vue.js"></script>
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -23,17 +23,25 @@
   <div id="main">
     <h2>Mon Carnet Nonlinéaire</h2>
     <div id='elt'>
-      <div v-on:click="addDoc">
-        + Ajouter une note
+      <div id='docList'>
+        <div v-on:click="addDoc">
+          + Ajouter une note
+        </div>
+        <ul>
+          <li v-for="doc in listDocs|orderBy 'modified' -1" v-on:click="activate(doc._id)"><b>{{doc.title}}</b> (créé le {{doc._id}} et modifié le {{doc.modified}}) </li>
+        </ul>
+        <div class="debug">
+          ActiveDoc: {{activeDoc}};<br/>
+          Config: {{JSON.stringify(config)}};<br/>
+          List Docs: {{listDocs}}.
+        </div>
       </div>
-      <div v-if="activeDoc">
-        <h3> <input type="text" v-model="activeDoc.title" placeholder="Titre"> - {{findDocById(activeDoc)._id}}</h3>
+      <div id="editor">
+        <h3> Titre: <input type="text" v-model="listDocs[activeDoc].title" placeholder="Titre"> - {{dateShow(listDocs[activeDoc]._id)}}</h3>
         <br>
-        <textarea type="text" v-model="activeDoc.text" v-on:change="dateModif(activeDoc)" placeholder="Le texte" debounce="500" cols="80" rows="20"></textarea>
+        <textarea type="text" v-model="listDocs[activeDoc].text" v-on:change="dateModif(listDocs[activeDoc])" placeholder="Le texte" debounce="500" cols="80" rows="20"></textarea>
       </div>
-      <ul>
-        <li v-for="doc in listDocs|orderBy 'modified' -1" v-on:click="activate(doc._id)"><b>{{doc.title}}</b> (créé le {{doc._id}} et modifié le {{doc.modified}}) </li>
-      </ul>
+
     </div>
   </div>
   <script src="resources/js/main.js"></script>

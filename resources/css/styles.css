@@ -11,7 +11,18 @@ h2{
 }
 
 #main{
-  width: 600px;
+  width: 800px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#docList{
+  display:inline-block;
+  width:50%;
+  float:left;
+}
+#editor{
+  display:inline-block;
+  width:50%;
+  float: right;
 }
