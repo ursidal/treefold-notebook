@@ -27,12 +27,12 @@
         + Ajouter une note
       </div>
       <div v-if="activeDoc">
-        <h3> <input type="text" v-model="findDocById(activeDoc).title" placeholder="Titre"> - {{findDocById(activeDoc)._id}}</h3>
+        <h3> <input type="text" v-model="activeDoc.title" placeholder="Titre"> - {{findDocById(activeDoc)._id}}</h3>
         <br>
-        <textarea type="text" v-model="findDocById(activeDoc).text" v-on:change="dateModif(activeDoc)" placeholder="Le texte" debounce="500" cols="80" rows="20"></textarea>
+        <textarea type="text" v-model="activeDoc.text" v-on:change="dateModif(activeDoc)" placeholder="Le texte" debounce="500" cols="80" rows="20"></textarea>
       </div>
       <ul>
-        <li v-for="doc in listDocs|orderBy 'modified' -1" v-on:click="activate(doc._id)"><b>{{doc.title}}</b> ({{doc._id}}) </li>
+        <li v-for="doc in listDocs|orderBy 'modified' -1" v-on:click="activate(doc._id)"><b>{{doc.title}}</b> (créé le {{doc._id}} et modifié le {{doc.modified}}) </li>
       </ul>
     </div>
   </div>
