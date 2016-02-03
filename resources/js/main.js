@@ -54,7 +54,14 @@ function newDoc(){
   return doc;
 }
 
-
+function findDocById(listDocs,id){
+      var i = 0;
+      var n = listDocs[i].length;
+      while(listDocs[i]._id!=id && i<n){
+        i=i+1;
+      }
+      return listDocs[i];
+    }
 
 //Should we delete it ?
 // var renderer = new marked.Renderer();
@@ -126,19 +133,14 @@ var notebook = new Vue({
       this.listDocs.push(newdoc);
       this.activeDoc = newdoc;
     },
-    activate: function(i){
-      this.activeDoc = findDocById(i);
+    activate: function(id){
+      this.activeDoc = findDocById(this.listDocs,id);
     },
     dateModif: function(doc){
       doc.modified = (new Date()).toJSON();
     },
     findDocById: function(id){
-      var i = 0;
-      var n = this.listDocs[i].length;
-      while(this.listDocs[i]._id!=id && i<n){
-        i=i+1;
-      }
-      return this.listDocs[i];
+      return findDocById(this.listDocs,id);
     }
   }
 })
